@@ -18,6 +18,7 @@ log = logging.getLogger(__name__)
 
 makefile = Template(filename=os.path.join(os.path.dirname(__file__), "Makefile"))
 conf_py = Template(filename=os.path.join(os.path.dirname(__file__), "conf.py"))
+index_rst = Template(filename=os.path.join(os.path.dirname(__file__), "index.rst"))
 
 class Recipe(object):
     """buildout recipe to setup sphinx for birdhouse components"""
@@ -34,6 +35,7 @@ class Recipe(object):
 
         self.options['project'] = self.options.get('project', 'MyBird')
         self.options['version'] = self.options.get('version', '0.1')
+        self.options['html_theme'] = self.options.get('html_theme', 'alabaster')
 
     def install(self):
         """Installer"""
@@ -42,6 +44,7 @@ class Recipe(object):
         installed += list(self.install_dir())
         installed += list(self.install_makefile())
         installed += list(self.install_config())
+        installed += list(self.install_index())
 
         return installed
 
@@ -70,6 +73,12 @@ class Recipe(object):
     def install_config(self):
         content = conf_py.render(**self.options)
         name = os.path.join(self.source_dir, 'conf.py')
+        self._write_file(name, content)
+        return [name]
+
+    def install_index(self):
+        content = index_rst.render(**self.options)
+        name = os.path.join(self.source_dir, 'index.rst')
         self._write_file(name, content)
         return [name]
 
