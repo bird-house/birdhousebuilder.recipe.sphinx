@@ -24,8 +24,8 @@ class Recipe(object):
 
         self.outputs = options.get('outputs', 'html')
 
-        self.build_dir = os.path.join(self.buildout_dir, options.get('build', 'docs'))
-        self.source_dir = options.get('source', os.path.join(self.build_dir, 'source'))
+        #self.build_dir = os.path.join(self.buildout_dir, options.get('build', 'docs'))
+        #self.source_dir = options.get('source', os.path.join(self.build_dir, 'source'))
 
     def install(self):
         """Installer"""
@@ -38,7 +38,7 @@ class Recipe(object):
         script = conda.Recipe(
             self.buildout,
             self.name,
-            {'pkgs': 'sphinx sphinx_rtd_theme'})
+            {'pkgs': 'sphinx sphinx_rtd_theme mako docutils'})
         return script.install()
 
     def update(self):

@@ -15,6 +15,17 @@ long_description = (
     )
 
 
+entry_point = 'birdhousebuilder.recipe.sphinx'
+entry_points = {"zc.buildout": [
+    "default = %s:Recipe" % entry_point,
+    ],
+    "zc.buildout.uninstall": [
+    "default = %s:uninstall" % entry_point,
+    ],
+}
+
+tests_require = ['zope.testing', 'zc.buildout', 'manuel']
+    
 setup(name='birdhousebuilder.recipe.sphinx',
       version=version,
       description="Buildout recipe to generate and Sphinx-based documentation for Birdhouse.",
@@ -33,9 +44,7 @@ setup(name='birdhousebuilder.recipe.sphinx',
       author_email='',
       url='https://github.com/birdhouse/birdhousebuilder.recipe.sphinx',
       license='Apache License 2.0',
-      packages = find_packages('birdhousebuilder', exclude=['ez_setup']),
-      package_dir = {'':'birdhousebuilder'},
-      namespace_packages=['birdhousebuilder', 'birdhousebuilder.recipe'],
+      packages = find_packages(),
       include_package_data=True,
       zip_safe=False,
       install_requires=[
@@ -43,11 +52,11 @@ setup(name='birdhousebuilder.recipe.sphinx',
             'zc.buildout',
             'zc.recipe.egg',
             'docutils',
+            'Mako',
+            'birdhousebuilder.recipe.conda',
             'Sphinx>=1.3'],
-      tests_require=['zope.testing', 'zc.buildout', 'manuel'],
-      extras_require=dict(tests=['zope.testing', 'zc.buildout', 'manuel']),
+      tests_require=tests_require,
       test_suite = 'birdhousebuilder.recipe.sphinx.tests.test_docs.test_suite',
-      entry_points = {"zc.buildout": ["default = birdhousebuilder.recipe.sphinx:Recipe"]}
+      entry_points = entry_points,
       )
 
-# python setup.py --long-description | rst2html.py > /dev/null
