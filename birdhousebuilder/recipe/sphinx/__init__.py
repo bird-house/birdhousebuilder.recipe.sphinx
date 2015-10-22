@@ -9,7 +9,8 @@ import os
 import re
 import sys
 from mako.template import Template
-import zc.buildout
+from subprocess import check_call
+#import zc.buildout
 #from fnmatch import fnmatch
 from birdhousebuilder.recipe import conda
 
@@ -29,6 +30,7 @@ class Recipe(object):
 
         self.outputs = options.get('outputs', 'html')
 
+        self.src_dir = os.path.join(self.buildout_dir, options.get('src', '.'))
         self.docs_dir = os.path.join(self.buildout_dir, options.get('docs', 'docs'))
         self.build_dir = os.path.join(self.docs_dir, 'build')
         self.source_dir = os.path.join(self.docs_dir, 'source')
@@ -45,6 +47,7 @@ class Recipe(object):
         installed += list(self.install_makefile())
         installed += list(self.install_config())
         installed += list(self.install_index())
+        installed += list(self.install_apidoc())
 
         return installed
 
@@ -61,6 +64,8 @@ class Recipe(object):
 
         # create source folder
         conda.makedirs(self.source_dir)
+        conda.makedirs(os.path.join(self.source_dir, '_static'))
+        conda.makedirs(os.path.join(self.source_dir, '_templates'))
 
         return tuple()
 
@@ -81,6 +86,14 @@ class Recipe(object):
         name = os.path.join(self.source_dir, 'index.rst')
         self._write_file(name, content)
         return [name]
+
+    def install_apidoc(self):
+        try:
+            check_call(['sphinx-apidoc', '-f', '-o', os.path.join(self.source_dir, 'api'), self.src_dir,
+                        'setup.py', 'bootstrap.py', 'bootstrap-buildout.py'])
+        except:
+            log.exception('sphinx-apidoc failed.')
+        return tuple()
 
     def update(self):
         return self.install()
