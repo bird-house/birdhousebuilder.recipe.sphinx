@@ -3,6 +3,8 @@
 Recipe sphinx
 
 Based on https://pypi.python.org/pypi/collective.recipe.sphinxbuilder
+
+sphinx-quickstart --quiet -p myproj --dot=_ --sep -a author -v 0.1 --ext-autodoc --ext-todo --ext-viewcode --makefile --no-batchfile newdocs
 """
 
 import os
