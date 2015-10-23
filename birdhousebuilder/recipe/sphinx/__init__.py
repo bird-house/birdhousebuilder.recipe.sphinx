@@ -8,6 +8,13 @@ Generate templates with command:
 
 $ sphinx-quickstart --quiet -p \$\{project\} --dot=_ --sep -a \$\{author\} -v \$\{version\} --ext
 -autodoc --ext-intersphinx --ext-todo --ext-viewcode --makefile --no-batchfile newdocs
+
+Check the readthedocs docs:
+
+http://docs.readthedocs.org/en/latest/faq.html
+
+Sphinx extenstions:
+http://sphinx-doc.org/ext/autosummary.html
 """
 
 import os
