@@ -17,7 +17,7 @@ from mako.template import Template
 from subprocess import check_call
 import zc.buildout
 import zc.recipe.egg
-#from fnmatch import fnmatch
+from fnmatch import fnmatch
 from birdhousebuilder.recipe import conda
 
 import logging
@@ -37,10 +37,11 @@ class Recipe(object):
         self.bin_dir = self.buildout['buildout']['bin-directory']
 
         self.src_dir = os.path.join(self.buildout_dir, options.get('src', '.'))
+        self.options['src_dir'] = self.src_dir
         self.docs_dir = os.path.join(self.buildout_dir, options.get('docs', 'docs'))
         self.build_dir = os.path.join(self.docs_dir, 'build')
         self.source_dir = os.path.join(self.docs_dir, 'source')
-        self.extra_paths = self.options.get('extra-paths', None)
+        self.extra_paths = self.options.get('extra-paths', 'eggs/* develop-eggs/*')
 
         self.options['project'] = self.options.get('project', 'MyBird')
         self.options['author'] = self.options.get('author', 'Birdhouse')
@@ -70,10 +71,20 @@ class Recipe(object):
         return script.install()
 
     def install_sphinx(self):
-        egg_options = {}
+        # use extra paths .. eggs/* develop-eggs/*
+        extra_paths = []
         if self.extra_paths:
+            for extra_path in self.extra_paths.split():
+                dir = os.path.dirname(extra_path)
+                for filename in os.listdir(dir):
+                    filename = os.path.join(dir, filename)
+                    if fnmatch(filename, extra_path):
+                        extra_paths.append(filename)
+                
+        egg_options = {}
+        if extra_paths:
             log.info('inserting extra-paths..')
-            egg_options['extra_paths'] = self.extra_paths
+            egg_options['extra_paths'] = extra_paths
 
         self.egg.name = self.options['recipe']
         requirements, ws = self.egg.working_set([self.options['recipe'], 'docutils'])
@@ -117,12 +128,13 @@ class Recipe(object):
         return tuple()
 
     def install_apidoc(self):
+        api_dir = os.path.join(self.source_dir, 'api')
         try:
-            check_call(['sphinx-apidoc', '-f', '-o', os.path.join(self.source_dir, 'api'), self.src_dir,
+            check_call(['sphinx-apidoc', '-f', '-o', api_dir, self.src_dir,
                         'setup.py', 'bootstrap.py', 'bootstrap-buildout.py'])
         except:
             log.exception('sphinx-apidoc failed.')
-        return tuple()
+        return [api_dir]
 
     def update(self):
         return self.install()
