@@ -1,7 +1,10 @@
 .. sphinxbuilder documentation master file, created by
-   sphinx-quickstart on Tue Feb 10 15:02:26 2015.
+   sphinx-quickstart on Fri Oct 23 10:42:25 2015.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
+
+Welcome to sphinxbuilder's documentation!
+=========================================
 
 .. _introduction:
 
@@ -10,12 +13,13 @@ Introduction
 
 sphinxbuilder is part of the `Birdhouse <http://bird-house.github.io>`_ project.
 
+
 Contents:
 
 .. toctree::
    :maxdepth: 2
 
-   api/modules.rst
+   api/modules
 
 
 Indices and tables

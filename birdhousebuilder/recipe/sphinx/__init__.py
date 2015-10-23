@@ -4,7 +4,10 @@ Recipe sphinx
 
 Based on https://pypi.python.org/pypi/collective.recipe.sphinxbuilder
 
-sphinx-quickstart --quiet -p myproj --dot=_ --sep -a author -v 0.1 --ext-autodoc --ext-todo --ext-viewcode --makefile --no-batchfile newdocs
+Generate templates with command:
+
+$ sphinx-quickstart --quiet -p \$\{project\} --dot=_ --sep -a \$\{author\} -v \$\{version\} --ext
+-autodoc --ext-intersphinx --ext-todo --ext-viewcode --makefile --no-batchfile newdocs
 """
 
 import os
@@ -38,8 +41,9 @@ class Recipe(object):
         self.source_dir = os.path.join(self.docs_dir, 'source')
 
         self.options['project'] = self.options.get('project', 'MyBird')
+        self.options['author'] = self.options.get('author', 'Birdhouse')
         self.options['version'] = self.options.get('version', '0.1')
-        self.options['html_theme'] = self.options.get('html_theme', 'alabaster')
+        self.options['theme'] = self.options.get('theme', 'alabaster')
 
     def install(self):
         """Installer"""

@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to ${project}'s documentation!
-==================================
+=========================================
 
 .. _introduction:
 
@@ -18,6 +18,8 @@ Contents:
 
 .. toctree::
    :maxdepth: 2
+
+   api/modules
 
 
 Indices and tables
