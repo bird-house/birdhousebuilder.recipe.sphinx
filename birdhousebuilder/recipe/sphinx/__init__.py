@@ -15,7 +15,8 @@ import re
 import sys
 from mako.template import Template
 from subprocess import check_call
-#import zc.buildout
+import zc.buildout
+import zc.recipe.egg
 #from fnmatch import fnmatch
 from birdhousebuilder.recipe import conda
 
@@ -31,24 +32,28 @@ class Recipe(object):
 
     def __init__(self, buildout, name, options):
         self.buildout, self.name, self.options = buildout, name, options
+        self.egg = zc.recipe.egg.Egg(buildout, options['recipe'], options)
         self.buildout_dir = self.buildout['buildout']['directory']
-
-        self.outputs = options.get('outputs', 'html')
+        self.bin_dir = self.buildout['buildout']['bin-directory']
 
         self.src_dir = os.path.join(self.buildout_dir, options.get('src', '.'))
         self.docs_dir = os.path.join(self.buildout_dir, options.get('docs', 'docs'))
         self.build_dir = os.path.join(self.docs_dir, 'build')
         self.source_dir = os.path.join(self.docs_dir, 'source')
+        self.extra_paths = self.options.get('extra-paths', None)
 
         self.options['project'] = self.options.get('project', 'MyBird')
         self.options['author'] = self.options.get('author', 'Birdhouse')
         self.options['version'] = self.options.get('version', '0.1')
-        self.options['theme'] = self.options.get('theme', 'alabaster')
+        self.options['html_theme'] = self.options.get('html_theme', 'sphinx_rtd_theme')
+        #self.outputs = options.get('outputs', 'html')
+        self.options['sphinxbuild'] = self.options.get('sphinxbuild', os.path.join(self.bin_dir, 'sphinx-build'))
 
     def install(self):
         """Installer"""
         installed = []
         installed += list(self.install_conda())
+        installed += list(self.install_sphinx())
         installed += list(self.install_dir())
         installed += list(self.install_makefile())
         installed += list(self.install_config())
@@ -63,6 +68,22 @@ class Recipe(object):
             self.name,
             {'pkgs': 'sphinx sphinx_rtd_theme mako docutils'})
         return script.install()
+
+    def install_sphinx(self):
+        egg_options = {}
+        if self.extra_paths:
+            log.info('inserting extra-paths..')
+            egg_options['extra_paths'] = self.extra_paths
+
+        self.egg.name = self.options['recipe']
+        requirements, ws = self.egg.working_set([self.options['recipe'], 'docutils'])
+        zc.buildout.easy_install.scripts([('sphinx-quickstart', 'sphinx.quickstart', 'main'),
+                                          ('sphinx-build', 'sphinx', 'main'),
+                                          ('sphinx-apidoc', 'sphinx.apidoc', 'main'),
+                                          ('sphinx-autogen', 'sphinx.ext.autosummary.generate', 'main')], ws,
+                                         self.buildout[self.buildout['buildout']['python']]['executable'],
+                                         self.bin_dir, **egg_options)
+        return tuple()
 
     def install_dir(self):
         # create build folder
@@ -88,10 +109,12 @@ class Recipe(object):
         return [name]
 
     def install_index(self):
-        content = index_rst.render(**self.options)
         name = os.path.join(self.source_dir, 'index.rst')
-        self._write_file(name, content)
-        return [name]
+        # don't overwrite existing index.rst
+        if not os.path.exists(name):
+            content = index_rst.render(**self.options)
+            self._write_file(name, content)
+        return tuple()
 
     def install_apidoc(self):
         try:
