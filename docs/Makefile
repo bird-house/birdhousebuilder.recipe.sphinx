@@ -3,7 +3,7 @@
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
-SPHINXBUILD   = sphinx-build
+SPHINXBUILD   = /home/Shared/pingu/sandbox/birdhouse/birdhousebuilder.recipe.sphinx/bin/sphinx-build
 PAPER         =
 BUILDDIR      = build
 
