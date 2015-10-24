@@ -13,7 +13,9 @@ Check the readthedocs docs:
 
 http://docs.readthedocs.org/en/latest/faq.html
 
-Sphinx extenstions:
+Sphinx extensions:
+https://github.com/rtfd/sphinx-autoapi
+http://sphinx-doc.org/ext/autodoc.html
 http://sphinx-doc.org/ext/autosummary.html
 """
 
@@ -33,6 +35,7 @@ log = logging.getLogger(__name__)
 makefile = Template(filename=os.path.join(os.path.dirname(__file__), "Makefile"))
 conf_py = Template(filename=os.path.join(os.path.dirname(__file__), "conf.py"))
 index_rst = Template(filename=os.path.join(os.path.dirname(__file__), "index.rst"))
+rtd_txt = Template(filename=os.path.join(os.path.dirname(__file__), "rtd.txt"))
 
 class Recipe(object):
     """buildout recipe to setup sphinx for birdhouse components"""
@@ -67,6 +70,7 @@ class Recipe(object):
         installed += list(self.install_config())
         installed += list(self.install_index())
         #installed += list(self.install_apidoc())
+        installed += list(self.install_rtd())
 
         return installed
 
@@ -142,6 +146,16 @@ class Recipe(object):
         except:
             log.exception('sphinx-apidoc failed.')
         return [api_dir]
+
+    def install_rtd(self):
+        """
+        prepare readthedocs reqirements
+        """
+        name = os.path.join(self.buildout_dir, 'requirements', 'rtd.txt')
+        conda.makedirs(os.path.dirname(name))
+        content = rtd_txt.render(**self.options)
+        self._write_file(name, content)
+        return [name]
 
     def update(self):
         return self.install()
