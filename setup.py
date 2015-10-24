@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '0.1.1'
+version = '0.1.2'
 
 long_description = (
     read('README.rst') + '\n' +
@@ -56,7 +56,9 @@ setup(name='birdhousebuilder.recipe.sphinx',
             'docutils',
             'Mako',
             'birdhousebuilder.recipe.conda',
-            'Sphinx>=1.3'],
+            'Sphinx>=1.3',
+            'sphinx-autoapi',
+      ],
       tests_require=tests_require,
       test_suite = 'birdhousebuilder.recipe.sphinx.tests.test_docs.test_suite',
       entry_points = entry_points,

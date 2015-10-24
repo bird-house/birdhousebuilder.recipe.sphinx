@@ -1,6 +1,12 @@
 Changes
 *******
 
+0.1.2 (2015-10-24)
+==================
+
+* replaced autodoc by sphinx-autoapi extension
+* using src option for sphinx-autoapi
+
 0.1.1 (2015-10-23)
 ==================
 
