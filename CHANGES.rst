@@ -1,6 +1,11 @@
 Changes
 *******
 
+0.1.3 (2015-10-24)
+==================
+
+* setups requirements/rtd.txt for readthedocs.
+
 0.1.2 (2015-10-24)
 ==================
 
