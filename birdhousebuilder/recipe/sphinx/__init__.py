@@ -44,7 +44,7 @@ class Recipe(object):
         self.bin_dir = self.buildout['buildout']['bin-directory']
 
         self.src_dir = os.path.join(self.buildout_dir, options.get('src', '.'))
-        self.options['src_dir'] = self.src_dir
+        self.options['src_dir'] = os.path.join('..', '..', options.get('src', '.'))
         self.docs_dir = os.path.join(self.buildout_dir, options.get('docs', 'docs'))
         self.build_dir = os.path.join(self.docs_dir, 'build')
         self.source_dir = os.path.join(self.docs_dir, 'source')
@@ -55,7 +55,7 @@ class Recipe(object):
         self.options['version'] = self.options.get('version', '0.1')
         self.options['html_theme'] = self.options.get('html_theme', 'sphinx_rtd_theme')
         #self.outputs = options.get('outputs', 'html')
-        self.options['sphinxbuild'] = self.options.get('sphinxbuild', os.path.join(self.bin_dir, 'sphinx-build'))
+        #self.options['sphinxbuild'] = self.options.get('sphinxbuild', os.path.join(self.bin_dir, 'sphinx-build'))
 
     def install(self):
         """Installer"""
@@ -66,7 +66,7 @@ class Recipe(object):
         installed += list(self.install_makefile())
         installed += list(self.install_config())
         installed += list(self.install_index())
-        installed += list(self.install_apidoc())
+        #installed += list(self.install_apidoc())
 
         return installed
 
