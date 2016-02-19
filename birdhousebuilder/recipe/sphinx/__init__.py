@@ -33,7 +33,7 @@ import logging
 log = logging.getLogger(__name__)
 
 makefile = Template(filename=os.path.join(os.path.dirname(__file__), "Makefile"))
-conf_py = Template(filename=os.path.join(os.path.dirname(__file__), "conf.py"))
+conf_py = Template(filename=os.path.join(os.path.dirname(__file__), "conf_py"))
 index_rst = Template(filename=os.path.join(os.path.dirname(__file__), "index.rst"))
 rtd_txt = Template(filename=os.path.join(os.path.dirname(__file__), "rtd.txt"))
 
@@ -57,6 +57,7 @@ class Recipe(object):
         self.options['author'] = self.options.get('author', 'Birdhouse')
         self.options['version'] = self.options.get('version', '0.1')
         self.options['html_theme'] = self.options.get('html_theme', 'sphinx_rtd_theme')
+        self.options['use_autoapi'] = self.options.get('use_autoapi', 'true')
         #self.outputs = options.get('outputs', 'html')
         #self.options['sphinxbuild'] = self.options.get('sphinxbuild', os.path.join(self.bin_dir, 'sphinx-build'))
 
