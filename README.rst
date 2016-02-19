@@ -39,6 +39,9 @@ The recipe supports the following options:
 **version** (default: `0.1`)
     Specify the version of the project.
 
+**use_autoapi** (default: `true`)
+    Set to `fals` if you don't want to use the `sphinx-autoapi`.  
+  
 **src** (default: `.`)    
     Specify path to source folder which will be used by `sphinx-autoapi`.
 
