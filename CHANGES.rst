@@ -1,6 +1,11 @@
 Changes
 *******
 
+current (2016-mm-dd)
+==================
+
+* linkcheck_timeout added.
+
 0.1.5 (2016-02-19)
 ==================
 
