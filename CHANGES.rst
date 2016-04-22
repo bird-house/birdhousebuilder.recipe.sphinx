@@ -4,6 +4,7 @@ Changes
 current (2016-mm-dd)
 ==================
 
+* ignore localhost links.
 * linkcheck_timeout added.
 
 0.1.5 (2016-02-19)
