@@ -4,6 +4,7 @@ Changes
 current (2016-mm-dd)
 ==================
 
+* rst_epilog links added.
 * ignore localhost links.
 * linkcheck_timeout added.
 
