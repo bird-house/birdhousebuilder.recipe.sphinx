@@ -1,7 +1,7 @@
 Changes
 *******
 
-current (2016-mm-dd)
+0.1.6 (2016-06-01)
 ==================
 
 * rst_epilog links added.
