@@ -1,8 +1,8 @@
 Changes
 *******
 
-current
-=======
+0.1.7 (2016-06-02)
+==================
 
 * fixed readthedocs urls.
 
