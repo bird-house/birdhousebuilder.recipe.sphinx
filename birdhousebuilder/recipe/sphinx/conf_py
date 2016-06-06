@@ -343,5 +343,6 @@ rst_epilog = """
 .. _Emu: http://emu.readthedocs.io/en/latest/
 .. _Birdy: http://birdy.readthedocs.io/en/latest/
 .. _Bootstrap: http://birdhousebuilderbootstrap.readthedocs.io/en/latest/
+.. _icclim: http://icclim.readthedocs.io/en/latest/
 """
 
