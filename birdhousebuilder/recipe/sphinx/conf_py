@@ -344,5 +344,8 @@ rst_epilog = """
 .. _Birdy: http://birdy.readthedocs.io/en/latest/
 .. _Bootstrap: http://birdhousebuilderbootstrap.readthedocs.io/en/latest/
 .. _icclim: http://icclim.readthedocs.io/en/latest/
+.. _PyWPS: http://pywps.org/
+.. _dispel4py: https://github.com/dispel4py/dispel4py
+.. _esgf-pyclient: https://pypi.python.org/pypi/esgf-pyclient
 """
 
