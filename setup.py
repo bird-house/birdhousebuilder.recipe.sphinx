@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '0.1.7'
+version = '0.2.0'
 
 long_description = (
     read('README.rst') + '\n' +
@@ -43,7 +43,7 @@ setup(name='birdhousebuilder.recipe.sphinx',
         ],
       keywords='buildout sphinx',
       author='Birdhouse',
-      author_email='ehbrecht at dkrz.de',
+      author_email='wps-dev at dkrz.de',
       url='https://github.com/birdhouse/birdhousebuilder.recipe.sphinx',
       license='Apache License 2.0',
       packages = find_packages(),
