@@ -110,12 +110,20 @@ class Recipe(object):
 
     def install_dir(self):
         # create build folder
-        conda.makedirs(self.build_dir)
+        if not os.path.exists(self.build_dir):
+            os.makedirs(self.build_dir)
 
         # create source folder
-        conda.makedirs(self.source_dir)
-        conda.makedirs(os.path.join(self.source_dir, '_static'))
-        conda.makedirs(os.path.join(self.source_dir, '_templates'))
+        if not os.path.exists(self.source_dir):
+            os.makedirs(self.source_dir)
+            
+        static_dir = os.path.join(self.source_dir, '_static')
+        if not os.path.exists(static_dir):
+            os.makedirs(static_dir)
+            
+        templates_dir = os.path.join(self.source_dir, '_templates')
+        if not os.path.exists(templates_dir):
+            os.makedirs(templates_dir)
 
         return tuple()
 
@@ -153,7 +161,8 @@ class Recipe(object):
         prepare readthedocs reqirements
         """
         name = os.path.join(self.buildout_dir, 'requirements', 'rtd.txt')
-        conda.makedirs(os.path.dirname(name))
+        if not os.path.exists(os.path.dirname(name)):
+            os.makedirs(os.path.dirname(name))
         content = rtd_txt.render(**self.options)
         self._write_file(name, content)
         return [name]
