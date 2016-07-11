@@ -11,14 +11,18 @@ birdhousebuilder.recipe.sphinx
 Introduction
 ************
 
-Buildout Recipe to setup Sphinx Documentation for `Birdhouse <http://bird-house.github.io/>`_ Components.
+Buildout Recipe to setup Sphinx Documentation for `Birdhouse`_ Components.
 
 The recipe is based on https://pypi.python.org/pypi/collective.recipe.sphinxbuilder
+
+.. _`Buildout`: http://buildout.org/
+.. _`Anaconda`: http://continuum.io/
+.. _`Birdhouse`: http://bird-house.github.io
 
 Usage
 *****
 
-The recipe requires that Anaconda is already installed. It assumes that the default Anaconda location is in your home directory ``~/anaconda``. Otherwise you need to set the ``ANACONDA_HOME`` environment variable or the Buildout option `anaconda-home`.
+The recipe requires that `Anaconda`_ is already installed. You can use the buildout option ``anaconda-home`` to set the prefix for the anaconda installation. Otherwise the environment variable ``CONDA_PREFIX`` (variable is set when activating a conda environment) is used as conda prefix. 
 
 The recipe builds an initial docs folder for Sphinx in `docs`. 
 The recipe configures `sphinx-autoapi` to generate the api reference documetation from the source code. 
@@ -54,8 +58,6 @@ Set up the docs for the project `Emu`:
 
   [buildout]
   parts = sphinx
-
-  anaconda-home = /home/myself/anaconda
 
   [sphinx]
   recipe = birdhousebuilder.recipe.sphinx
