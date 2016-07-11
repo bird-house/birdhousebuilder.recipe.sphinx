@@ -8,29 +8,35 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '0.2.0'
+name = 'birdhousebuilder.recipe.sphinx'
 
+version = '0.2.1'
+description="Buildout recipe to generate and Sphinx-based documentation for Birdhouse."
 long_description = (
     read('README.rst') + '\n' +
     read('AUTHORS.rst') + '\n' +
     read('CHANGES.rst')
     )
 
+entry_points = '''
+[zc.buildout]
+default = %(name)s:Recipe
+[zc.buildout.uninstall]
+default = %(name)s:uninstall
+''' % globals()
 
-entry_point = 'birdhousebuilder.recipe.sphinx'
-entry_points = {"zc.buildout": [
-    "default = %s:Recipe" % entry_point,
-    ],
-    "zc.buildout.uninstall": [
-    "default = %s:uninstall" % entry_point,
-    ],
-}
+reqs = ['setuptools',
+        'zc.buildout',
+        # -*- Extra requirements: -*-
+        'mako',
+        'zc.recipe.egg', 
+        'birdhousebuilder.recipe.conda',
+        ],
+tests_reqs = ['zope.testing', 'zc.buildout']
 
-tests_require = ['zope.testing', 'zc.buildout', 'manuel']
-    
-setup(name='birdhousebuilder.recipe.sphinx',
+setup(name=name,
       version=version,
-      description="Buildout recipe to generate and Sphinx-based documentation for Birdhouse.",
+      description=description,
       long_description=long_description,
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
@@ -41,26 +47,17 @@ setup(name='birdhousebuilder.recipe.sphinx',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Scientific/Engineering :: Atmospheric Science',
         ],
-      keywords='buildout sphinx',
+      keywords='buildout sphinx birdhouse',
       author='Birdhouse',
       author_email='wps-dev at dkrz.de',
       url='https://github.com/birdhouse/birdhousebuilder.recipe.sphinx',
       license='Apache License 2.0',
-      packages = find_packages(),
-      include_package_data=True,
-      zip_safe=False,
-      install_requires=[
-            'setuptools',
-            'zc.buildout',
-            'zc.recipe.egg',
-            'docutils',
-            'Mako',
-            'birdhousebuilder.recipe.conda',
-            'Sphinx>=1.3',
-            'sphinx-autoapi',
-      ],
-      tests_require=tests_require,
-      test_suite = 'birdhousebuilder.recipe.sphinx.tests.test_docs.test_suite',
+      install_requires = reqs,
+      extras_require = dict(tests=tests_reqs),
       entry_points = entry_points,
+      packages = find_packages(exclude=['ez_setup']),
+      namespace_packages = ['birdhousebuilder', 'birdhousebuilder.recipe'],
+      include_package_data = True,
+      zip_safe = False,
       )
 
