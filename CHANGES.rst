@@ -1,6 +1,12 @@
 Changes
 *******
 
+0.2.1 (2016-07-11)
+==================
+
+* updated to latest conda recipe.
+* updated test suite.
+
 0.2.0 (2016-07-01)
 ==================
 
