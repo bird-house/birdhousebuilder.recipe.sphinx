@@ -27,7 +27,8 @@ from subprocess import check_call
 import zc.buildout
 import zc.recipe.egg
 from fnmatch import fnmatch
-from birdhousebuilder.recipe import conda
+
+import birdhousebuilder.recipe.conda
 
 import logging
 log = logging.getLogger(__name__)
@@ -53,6 +54,17 @@ class Recipe(object):
         self.source_dir = os.path.join(self.docs_dir, 'source')
         self.extra_paths = self.options.get('extra-paths', 'eggs/* develop-eggs/*')
 
+        # conda environment path
+        self.options['env'] = self.options.get('env', '')
+        self.options['pkgs'] = self.options.get('pkgs', 'sphinx sphinx_rtd_theme')
+        self.options['channels'] = self.options.get('channels', 'defaults')
+        self.conda = birdhousebuilder.recipe.conda.Recipe(self.buildout, self.name, {
+            'env': self.options['env'],
+            'pkgs': self.options['pkgs'],
+            'channels': self.options['channels'] })
+        self.options['conda-prefix'] = self.options['conda_prefix'] = self.conda.options['prefix']
+
+        # config options
         self.options['project'] = self.options.get('project', 'MyBird')
         self.options['author'] = self.options.get('author', 'Birdhouse')
         self.options['version'] = self.options.get('version', '0.1')
@@ -61,10 +73,10 @@ class Recipe(object):
         #self.outputs = options.get('outputs', 'html')
         #self.options['sphinxbuild'] = self.options.get('sphinxbuild', os.path.join(self.bin_dir, 'sphinx-build'))
 
-    def install(self):
+    def install(self, update=False):
         """Installer"""
         installed = []
-        installed += list(self.install_conda())
+        installed += list(self.conda.install(update))
         installed += list(self.install_sphinx())
         installed += list(self.install_dir())
         installed += list(self.install_makefile())
@@ -74,13 +86,6 @@ class Recipe(object):
         installed += list(self.install_rtd())
 
         return installed
-
-    def install_conda(self):
-        script = conda.Recipe(
-            self.buildout,
-            self.name,
-            {'pkgs': 'sphinx sphinx_rtd_theme mako docutils'})
-        return script.install()
 
     def install_sphinx(self):
         # use extra paths .. eggs/* develop-eggs/*
@@ -168,7 +173,7 @@ class Recipe(object):
         return [name]
 
     def update(self):
-        return self.install()
+        return self.install(update=True)
 
     def _write_file(self, name, content):
         with open(name, 'w') as fp:
