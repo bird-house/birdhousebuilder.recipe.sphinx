@@ -10,7 +10,7 @@ def read(*rnames):
 
 name = 'birdhousebuilder.recipe.sphinx'
 
-version = '0.2.1'
+version = '0.2.2'
 description="Buildout recipe to generate and Sphinx-based documentation for Birdhouse."
 long_description = (
     read('README.rst') + '\n' +
