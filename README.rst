@@ -6,8 +6,6 @@ birdhousebuilder.recipe.sphinx
    :target: https://travis-ci.org/bird-house/birdhousebuilder.recipe.sphinx
    :alt: Travis Build
 
-.. contents::
-
 Introduction
 ************
 
