@@ -6,6 +6,7 @@ Changes
 
 * pep8.
 * using alabaster theme.
+* using pywps autodoc extension.
 
 0.2.3 (2016-07-25)
 ==================
